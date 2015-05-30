@@ -10,6 +10,8 @@ void hello(HTTPServerRequest req, HTTPServerResponse res)
 {
 
   runTask({
+    //crashes on the 2nd call with:
+    //Task terminated with unhandled exception: Acquiring reader of already owned connection.
     auto num = client.call!string("echo", "echo");
     import std.stdio;
     writeln(num);
