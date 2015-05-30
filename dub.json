@@ -1,0 +1,11 @@
+{
+	"name": "test-msgpackrpc2",
+	"description": "A simple vibe.d server application.",
+	"copyright": "Copyright © 2015, yannick",
+	"authors": ["yannick"],
+	"dependencies": {
+    "msgpack-rpc": {"version": "~master", "path": "../msgpack-rpc-d"}
+	},
+  "subConfigurations": { "vibe-d": "libevent"},
+  "versions": ["VibeCustomMain"]
+}
