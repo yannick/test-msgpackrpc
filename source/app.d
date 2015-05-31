@@ -1,9 +1,10 @@
 import vibe.d;
 import msgpackrpc.client;
+import vibe.core.connectionpool;
 
-TCPClient client;
+ConnectionPool!TCPClient client;
 static this(){
- client = new TCPClient(Endpoint(5000, "127.0.0.1"));
+ client = new ConnectionPool!TCPClient( { return new TCPClient(Endpoint(5000, "127.0.0.1")); } );
 }
 
 void hello(HTTPServerRequest req, HTTPServerResponse res)
@@ -12,7 +13,8 @@ void hello(HTTPServerRequest req, HTTPServerResponse res)
   runTask({
     //crashes on the 2nd call with:
     //Task terminated with unhandled exception: Acquiring reader of already owned connection.
-    auto num = client.call!string("echo", "echo");
+    auto c = client.lockConnection();
+    auto num = c.call!string("echo", "echo");
     import std.stdio;
     writeln(num);
   });
